@@ -43,7 +43,7 @@ bool handleError(char *input, int valtyp)
         {
             for(int i = 0; input[i] != '\0'; i++)
              {
-                if (!isalnum(input[i]) || input[i] != '-')
+                if (!isalnum(input[i]) && input[i] != '-')
                 {
                     printf("ISBN Number. Please enter a valid ISNB containing only alphanumerics and hyphens :\n");
                     return true;
@@ -84,18 +84,21 @@ void addbook(book library[], int *nobk)
              fgets(input, sizeof(input), stdin);
         } while (handleError(input, 1));
         strcpy(data.title, input);
+        memset(input, '\0', sizeof(input));
 
         printf("Please enter the author of the book you just added:\n");
         do {
              fgets(input, sizeof(input), stdin);
         } while (handleError(input, 2));
         strcpy(data.Author, input);
+        memset(input, '\0', sizeof(input));
 
         printf("Please enter the ISBN code of the book you entered above:\n");
         do{
              fgets(input, sizeof(input), stdin);
         }while(handleError(input,3));
         strcpy(data.ISBN,input);
+        memset(input, '\0', sizeof(input));
 
         printf("Please enter the quantity:\n");
         do{
@@ -103,8 +106,7 @@ void addbook(book library[], int *nobk)
         }while(handleError(input,4));
         sscanf(input, "%d", &data.qnty);
 
-        library[*nobk] = data;
-        nobk++;
+        (*nobk)++;
     }
 }
 void removebook(book library[], int *nobk)
