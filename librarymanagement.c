@@ -10,7 +10,12 @@ typedef struct {
     char ISBN[20];
     int qnty;
 }book ;
-
+void removeNewline(char* buffer) {
+    size_t len = strlen(buffer);
+    if (len > 0 && buffer[len - 1] == '\n') {
+        buffer[len - 1] = '\0';
+    }
+}
 bool handleError(char *input, int valtyp)
 {
     switch (valtyp)
@@ -82,6 +87,7 @@ void addbook(book library[], int *nobk)
         printf("Please enter the name of the book you want to add:\n");
         do {
              fgets(input, sizeof(input), stdin);
+             removeNewline(input);
         } while (handleError(input, 1));
         strcpy(data.title, input);
         memset(input, '\0', sizeof(input));
@@ -89,21 +95,25 @@ void addbook(book library[], int *nobk)
         printf("Please enter the author of the book you just added:\n");
         do {
              fgets(input, sizeof(input), stdin);
+             removeNewline(input);
         } while (handleError(input, 2));
         strcpy(data.Author, input);
+        
         memset(input, '\0', sizeof(input));
 
         printf("Please enter the ISBN code of the book you entered above:\n");
         do{
              fgets(input, sizeof(input), stdin);
+             removeNewline(input);
         }while(handleError(input,3));
         strcpy(data.ISBN,input);
         memset(input, '\0', sizeof(input));
 
         printf("Please enter the quantity:\n");
-        do{
-            scanf("%s",input);
-        }while(handleError(input,4));
+        do {
+            fgets(input, sizeof(input), stdin);
+            removeNewline(input);
+        } while (handleError(input, 4));
         sscanf(input, "%d", &data.qnty);
 
         (*nobk)++;
@@ -191,7 +201,7 @@ void searchbook(book library[], int *nobk)
 }
 void displaybooks(book library[],int *nobk)
 {
-    printf("All the books now will be listed below with all the details");
+    printf("All the books now will be listed below with all the details\n");
     for(int i = 0; i < *nobk; i++)
     {
         printf("%d. %s\n",i,library[i].title);
@@ -240,17 +250,17 @@ void loadLibrary( book library[], int *nobk)
     fclose(p);
 
 }
-
-int main()
-{
+int main() {
     int nobk;
     book library[100];
     int chc;
     char c;
 
     loadLibrary(library, &nobk);
-    do {
-        printf("Library Management System\n");
+    
+    while (1) 
+    {
+        printf("\nLibrary Management System\n");
         printf("1. Add Book\n");
         printf("2. Remove A Certain Book Book\n");
         printf("3. Search For A Specific Book\n");
@@ -259,8 +269,8 @@ int main()
         printf("Enter your choice: ");
         scanf("%d", &chc);
         getchar();
-         switch (chc)
-        {
+
+        switch (chc) {
             case 1:
                 addbook(library, &nobk);
                 break;
@@ -276,8 +286,7 @@ int main()
             case 0:
                 printf("Exiting... do you want to save (Y/N)\n");
                 scanf("%c", &c);
-                if (c == 'y' || c == 'Y')
-                {
+                if (c == 'y' || c == 'Y') {
                     saveLibrary(library, &nobk);
                 }
                 printf("Thanks for using our Library Management System.\n");
@@ -286,8 +295,7 @@ int main()
             default:
                 printf("Invalid choice. Try again.\n");
         }
-    } while (chc != 0);
+    }
 
     return 0;
 }
-
