@@ -78,7 +78,7 @@ void addbook(book library[], int *nobk)
 {
     book data;
     int num;
-    printf("please enter the number of books you want to entered :\n");
+    printf("please enter the number of unique books you want to entered :\n");
     scanf("%d",&num);
     getchar();
     char input[100];
@@ -121,7 +121,6 @@ void addbook(book library[], int *nobk)
 }
 void removebook(book library[], int *nobk)
 {
-    book data;
     char input[100];
     printf("Please enter the name or Author's name or ISBN of the book you want to remove \n");
     scanf("%s",input);
@@ -164,7 +163,7 @@ void searchbook(book library[], int *nobk)
         for (int i = 0; i < *nobk; i++)
         {
             if (strcasecmp(input, library[i].title) == 0) {
-                printf("You have searched book title: \n", input);
+                printf("You have searched book title: %s\n", input);
                 printf("Author's name: %s\n", library[i].Author);
                 printf("ISBN: %s\n", library[i].ISBN);
                 printf("No. of books: %d\n", library[i].qnty);
@@ -296,6 +295,9 @@ int main() {
                 printf("Invalid choice. Try again.\n");
         }
     }
+
+    return 0;
+}
 
     return 0;
 }
